@@ -1,6 +1,6 @@
 # Task Manager API
 
-Spring Boot приложение для учета задач
+Spring Boot приложение для учета задач 
 
 ## Технологии
 - Java 24
