@@ -20,8 +20,16 @@ public class TaskService {
     }
 
     public List<Task> getListOfTask() {
-        List<Task> taskList = new ArrayList<>();
-        taskList = taskRepository.findAll();
-        return taskList;
+        return taskRepository.findAll();
     }
+
+    public Task getTaskById(Long id) {
+        return taskRepository.findById(id).orElse(null);
+    }
+
+    public void deleteTaskById(Long id) {
+        Task delTask = getTaskById(id);
+        taskRepository.delete(delTask);
+    }
+
 }

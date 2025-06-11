@@ -24,7 +24,6 @@ public class Task {
 //    @Column(name = "date")
 //    private LocalDateTime date;
 
-
     public String getTitle() {
         return title;
     }

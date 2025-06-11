@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Задача ${object.id}</title>
+</head>
+<body>
+<div>
+  <p>${object.title}</p>
+  <p>${object.description}</p>
+</div>
+<form action="/product/${object.id}/delete" method="post">
+  <input type="submit" value="Удалить"/>
+</form>
+<form action="/product/${object.id}/savechange" method="post">
+    <input type="text" name="title"/><br>
+    <input type="text" name="description"/><br>
+    <input type="submit" value="Сохранить"/>
+</form>
+</body>
+</html>
