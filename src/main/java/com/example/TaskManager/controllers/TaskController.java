@@ -1,7 +1,11 @@
 package com.example.TaskManager.controllers;
 
 import com.example.TaskManager.models.Task;
+import com.example.TaskManager.models.User;
 import com.example.TaskManager.services.TaskService;
+import com.example.TaskManager.services.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,18 +13,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 
 @Controller
 public class TaskController {
     private final TaskService taskService;
+    private final UserService userService;
 
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, UserService userService) {
         this.taskService = taskService;
+        this.userService = userService;
     }
 
+
     @GetMapping("/")
-    public String mainPage(Model model) {
-        model.addAttribute("tasks", taskService.getListOfTask());
+    public String mainPage(Model model, Authentication authentication) {
+        User currentUser = userService.findByUsername(authentication.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));;
+        model.addAttribute("tasks", taskService.getListOfTask(currentUser));
         return "index";
     }
 
@@ -42,7 +52,11 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String addTask(Task task) {
+    public String addTask(Task task, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userService.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        task.setAuthor(user);
         taskService.saveTask(task);
         return "redirect:/";
     }

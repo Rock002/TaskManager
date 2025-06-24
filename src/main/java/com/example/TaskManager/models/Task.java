@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 
@@ -21,6 +22,10 @@ public class Task {
     private String title;
     @Column(name = "description", columnDefinition = "text")
     private String description;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author")
+    private User author;
+
 //    @Column(name = "date")
 //    private LocalDateTime date;
 
@@ -36,6 +41,16 @@ public class Task {
         return id;
     }
 
+    public String getAuthor() {
+        if (author != null) {
+            return author.getName();
+        }
+        return "None";
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
 
     public void setId(Long id) {
         this.id = id;

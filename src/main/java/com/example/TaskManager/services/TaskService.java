@@ -1,6 +1,7 @@
 package com.example.TaskManager.services;
 
 import com.example.TaskManager.models.Task;
+import com.example.TaskManager.models.User;
 import com.example.TaskManager.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,8 @@ public class TaskService {
         taskRepository.save(task);
     }
 
-    public List<Task> getListOfTask() {
-        return taskRepository.findAll();
+    public List<Task> getListOfTask(User user) {
+        return taskRepository.findByAuthor(user);
     }
 
     public Task getTaskById(Long id) {
