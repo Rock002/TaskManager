@@ -29,7 +29,7 @@ public class TaskController {
     @GetMapping("/")
     public String mainPage(Model model, Authentication authentication) {
         User currentUser = userService.findByUsername(authentication.getName())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));;
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         model.addAttribute("tasks", taskService.getListOfTask(currentUser));
         return "index";
     }
